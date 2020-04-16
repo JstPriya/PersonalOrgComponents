@@ -13,12 +13,12 @@ before_install:
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
 before_script:
-- export DEPLOYDIR=src
+- export DEPLOYDIR=/force-app/main/default
 - export TESTLEVEL=NoTestRun
 - sfdx --version
 - sfdx plugins --core
 script:
 - sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid
   $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias DevHubOrg
-- sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername DevHubOrg  --testlevel
+- sfdx force:source:deploy --wait 10 -p $DEPLOYDIR --targetusername DevHubOrg  --testlevel
   $TESTLEVEL --checkonly
