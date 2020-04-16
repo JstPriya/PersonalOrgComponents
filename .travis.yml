@@ -13,7 +13,7 @@ before_install:
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
 before_script:
-- export DEPLOYDIR=/force-app/main/default
+- export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=NoTestRun
 - sfdx --version
 - sfdx plugins --core
