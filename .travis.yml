@@ -12,15 +12,12 @@ before_install:
 - wget -qO- $CLIURL | tar xJ -C sfdx --strip-components 1
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
-before_script:
-- export DEPLOYDIR=force-app/main/default
-- export TESTLEVEL=NoTestRun
 - sfdx --version
 - sfdx plugins --core
+- sfdx force:auth:jwt:grant --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setdefaultdevhubusername -a HubOrg
+
 script:
-- sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid
-$CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias DevHubOrg
-- sfdx force:org:create -v DevHubOrg -s -f config/project-scratch-def.json -a ciorg --wait 2
+- sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg --wait 2
 - sfdx force:org:display -u ciorg
 - sfdx force:source:push -u ciorg
 - sfdx force:apex:test:run -u ciorg --wait 10
